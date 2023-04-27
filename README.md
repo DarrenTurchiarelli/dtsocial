@@ -3,7 +3,7 @@
 First, you'll need to create a Reddit developer account and obtain an API key and secret, which will allow your Python code to access Reddit data. You can find more information on how to do this here: https://www.reddit.com/dev/api/
 
 Next, you'll need to use a Python Reddit API wrapper such as PRAW (Python Reddit API Wrapper) to access the Reddit API from your Python code. You can install PRAW using pip:
-# pip install praw
+## pip install praw
 
 Once you have PRAW installed, you can use it to search for relevant posts and comments on Reddit using a specific query. For example, to search for posts and comments related to "compute" on the "Azure" subreddit, you can use the following code: dtsocial-1.py
 
