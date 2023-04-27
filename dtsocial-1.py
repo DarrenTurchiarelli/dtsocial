@@ -1,10 +1,12 @@
 import praw
 
-reddit = praw.Reddit(client_id='your_client_id',
-                     client_secret='your_client_secret',
-                     user_agent='Integrate Reddit API and ChatGPT API by u/dturchiarelli')
+client_id     = 'your_client_id'
+client_secret = 'your_client_secret'
+user_agent    = 'your_user_agent'
 
-search_results = reddit.subreddit('Azure').search('compute')
+reddit = praw.Reddit(client_id     = client_id,
+                     client_secret = client_secret,
+                     user_agent    = user_agent)
 
 for result in search_results:
     print(result.title)
