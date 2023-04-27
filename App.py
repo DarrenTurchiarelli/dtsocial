@@ -43,7 +43,7 @@ def submit():
     question = request.form['question']
     
     # Search Reddit for relevant results
-    reddit_results = search_reddit(question, 'learnpython')
+    reddit_results = search_reddit(question, 'azure')
     
     # Generate a response using the OpenAI API
     gpt_response = get_gpt_response(question)
