@@ -1,7 +1,7 @@
 import praw
 import openai
 
-openai.api_key = 'insert-openai-secret'
+openai.api_key = 'your_api_key'
 
 reddit = praw.Reddit(client_id='your_client_id',
                      client_secret='your_client_secret',
