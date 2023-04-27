@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Initialize the Reddit and OpenAI APIs
 reddit = praw.Reddit(client_id='your_client_id',
                      client_secret='your_client_secret',
-                     user_agent='your_user_agent')
+                     user_agent='Integrate Reddit API and ChatGPT API by u/dturchiarelli')
 
 openai.api_key = 'your_api_key'
 
@@ -27,7 +27,7 @@ def get_gpt_response(question):
     response = openai.Completion.create(
         engine='davinci',
         prompt=question,
-        max_tokens=100
+        max_tokens=2000
     )
     return response.choices[0].text.strip()
 
