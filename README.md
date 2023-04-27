@@ -1,5 +1,4 @@
 # dtsocial
-Python solution that integrates with Reddit API and ChatGPT API
 
 First, you'll need to create a Reddit developer account and obtain an API key and secret, which will allow your Python code to access Reddit data. You can find more information on how to do this here: https://www.reddit.com/dev/api/
 
