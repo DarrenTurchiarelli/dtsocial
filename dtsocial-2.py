@@ -1,15 +1,20 @@
 import praw
 import openai
 
-openai.api_key = 'your_api_key'
+client_id      = 'your_client_id'
+client_secret  = 'your_client_secret'
+user_agent     = 'your_user_agent'
+openai_api_key = 'your_openai_api_key'
 
-reddit = praw.Reddit(client_id='your_client_id',
-                     client_secret='your_client_secret',
-                     user_agent='Integrate Reddit API and ChatGPT API by u/dturchiarelli')
+reddit = praw.Reddit(client_id     = client_id,
+                     client_secret = client_secret,
+                     user_agent= user_agent)
+
+openai.api_key = openai_api_key
 
 def get_gpt_response(question):
     response = openai.Completion.create(
-        engine='text-davinci-003',
+        engine='davinci',
         prompt=question,
         max_tokens=100
     )
@@ -18,11 +23,15 @@ def get_gpt_response(question):
 def search_reddit(query, subreddit):
     search_results = reddit.subreddit(subreddit).search(query)
     results = []
+    count = 0
     for result in search_results:
+        if count == 5: # limit the results to 5
+            break
         results.append({
             'title': result.title,
             'text': result.selftext
         })
+        count += 1
     return results
 
 while True:
