@@ -25,9 +25,9 @@ def search_reddit(query, subreddit):
 # Define a function to generate a response using the OpenAI API
 def get_gpt_response(question):
     response = openai.Completion.create(
-        engine='davinci',
+        engine='text-davinci-003',
         prompt=question,
-        max_tokens=2000
+        max_tokens=100
     )
     return response.choices[0].text.strip()
 
