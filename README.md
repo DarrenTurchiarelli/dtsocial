@@ -28,5 +28,30 @@ Now you can visit http://localhost:5000 in your web browser and enter a question
 
 Note that this is a basic example and you may need to customize it to meet your specific needs. Additionally, be aware of any rate limiting or usage restrictions that may apply to the Reddit API and ChatGPT API.
 
+## To deploy the code from the GitHub repository you provided to an Azure App Service, you can follow these general steps:
+
+Create an Azure App Service:
+
+Go to the Azure portal (portal.azure.com) and sign in.
+Create a new App Service by clicking the "+ Create a resource" button and searching for "App Service".
+Follow the prompts to configure the App Service with a unique name, resource group, subscription, and other necessary settings.
+Set up deployment credentials:
+
+In the App Service, go to the "Deployment Center" section.
+Choose the source control option as GitHub and authorize Azure to access your GitHub account.
+Provide your GitHub credentials, if prompted.
+Choose the repository and branch you want to deploy.
+Configure the App Service:
+
+In the App Service, go to the "Configuration" section.
+Add the necessary environment variables such as Flask_APP (set this to the name of your app.py file), Flask_ENV (set this to "production"), and any other necessary environment variables for your application.
+Add any necessary modules and packages required for your Flask application to run.
+Deploy the code:
+
+In the App Service, go to the "Deployment Center" section.
+Choose the deployment source you just set up and click "Deploy".
+Wait for the deployment to complete.
+Once the deployment is complete, you should be able to access your Flask application at the URL of your Azure App Service.
+
 # DISCLAIMER
 The sample scripts are not supported under any Microsoft standard support program or service. The sample scripts are provided AS IS without warranty of any kind. Microsoft further disclaims all implied warranties including, without limitation, any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance of the sample scripts and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, production, or delivery of the scripts be liable for any damages whatsoever (including, without limitation, damages for loss of business profits, business interruption, loss of business information, or other pecuniary loss) arising out of the use of or inability to use the sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
