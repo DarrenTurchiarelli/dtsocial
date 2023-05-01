@@ -54,6 +54,7 @@ Once the deployment is complete, you should be able to access your Flask applica
 
 **NOTE** If you plan on making your app publically accessible, you might want set a usage limit on your OpenAI account :)  
 
+## Blog Post
 Are you considering using Azure OpenAI in an enterprise environment but concerned on the resource domain placement and how to secure the service? There are a many supporting services that could be utilised based on the business requirements, but I want to provide an example, which due to its simplicity and flexibility involves running Application Gateway and Azure Firewall in parallel. This is one of the emerging practices but there are many others that can be drawn upon here . These patterns can be leveraged as you are planning to secure you application workload in a highly available manner. This architecture addresses the needs of individuals and organizations seeking to additionally protect backend APIs from unauthorized users, as well as leveraging API Management features such as throttling, rate limiting, and IP filtering to prevent overloading of APIs.
 Initially when deciding which architecture might be the best starting point, I would recommend the below workflow to assist in making that decision and adjust accordingly. 
 
