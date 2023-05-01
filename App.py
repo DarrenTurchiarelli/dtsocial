@@ -1,21 +1,38 @@
 from flask import Flask, request, render_template
 import praw
 import openai
+import os
+import json
 
 app = Flask(__name__)
 
-# Define the API keys
-client_id      = 'your_client_id'
-client_secret  = 'your_client_secret'
-user_agent     = 'your_user_agent'
-openai_api_key = 'your_openai_api_key'
+# Load config values
+with open(r'AzureOpenAIconfig.json') as config_file:
+    config_details = json.load(config_file)
 
-# Initialize the Reddit and OpenAI APIs
-reddit = praw.Reddit(client_id     = client_id,
-                     client_secret = client_secret,
-                     user_agent    = user_agent)
+# Setting up the deployment name
+chatgpt_model_name = config_details['CHATGPT_MODEL_NAME']
 
-openai.api_key = openai_api_key
+# This is set to "azure"
+openai.api_type = "azure"
+
+# The API key for your Azure OpenAI resource.
+openai.api_key = config_details['OPENAI_API_KEY']
+
+# The base URL for your Azure OpenAI resource. e.g. "https://<your resource name>.openai.azure.com"
+openai.api_base = config_details['OPENAI_API_BASE']
+
+# Currently Chat Completion API have the following versions available: 2023-03-15-preview
+openai.api_version = config_details['OPENAI_API_VERSION']
+
+openai.gpt_type = config_details['OPENAI_GPT_TYPE']
+# Initialize the Reddit APIs
+reddit = praw.Reddit(client_id     = config_details['REDDIT_CLIENT_ID'],
+                     client_secret = config_details['REDDIT_CLIENT_SECRET'],
+                     user_agent    = config_details['REDDIT_USER_AGENT'])
+
+#chatgpt_api_key   = (config_details['CHATGPT_API_KEY'])
+#openai.api_key    = chatgpt_api_key 
 
 # Define a function to search Reddit and return the results
 def search_reddit(query, subreddit):
@@ -32,14 +49,20 @@ def search_reddit(query, subreddit):
         count += 1
     return results
 
-# Define a function to generate a response using the OpenAI API
-def get_gpt_response(question):
-    response = openai.Completion.create(
-        engine='text-davinci-003',
-        prompt=question,
-        max_tokens=100
-    )
-    return response.choices[0].text.strip()
+# Define the function to communicate with Azure OpenAI ChatGPT  
+def generate_response(question):  
+    model_engine = chatgpt_model_name  
+    response = openai.Completion.create(  
+        engine= model_engine,  
+        prompt= question, 
+        temperature= 0.0, 
+        max_tokens= 100,
+        top_p= 0.0,  
+        frequency_penalty= 0,
+        presence_penalty= 0,
+        stop= None           
+    )  
+    return response.choices[0].text.strip() 
 
 # Define the homepage
 @app.route('/')
@@ -50,16 +73,16 @@ def home():
 @app.route('/submit', methods=['POST'])
 def submit():
     # Get the user's question from the form
-    question = request.form['question']
+    user_question = request.form['question']
     
     # Search Reddit for relevant results
-    reddit_results = search_reddit(question, 'azure')
+    reddit_results = search_reddit(user_question, 'azure')
     
     # Generate a response using the OpenAI API
-    gpt_response = get_gpt_response(question)
+    generated_response = generate_response(user_question)
     
     # Render the results template with the Reddit and GPT results
-    return render_template('results.html', reddit_results=reddit_results, gpt_response=gpt_response)
+    return render_template('results.html', reddit_results=reddit_results, response=generated_response)
 
 if __name__ == '__main__':
     app.run(debug=True)
