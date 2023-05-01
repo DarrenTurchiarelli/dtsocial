@@ -29,8 +29,6 @@ Note that this is a basic example and you may need to customize it to meet your 
 
 ## To deploy the code from the GitHub repository you provided to an Azure App Service, you can follow these general steps:
 
-## Create an Azure App Service:
-
 Go to the Azure portal (portal.azure.com) and sign in.
 Create a new App Service by clicking the "+ Create a resource" button and searching for "App Service".
 Follow the prompts to configure the App Service with a unique name, resource group, subscription, and other necessary settings.
