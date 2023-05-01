@@ -36,7 +36,7 @@
         margin-bottom: 20px;
       }
       input[type="submit"] {
-        background-color: #4CAF50;
+        background-color: #3777BC;
         color: #fff;
         border: none;
         padding: 10px 20px;
@@ -45,7 +45,7 @@
         cursor: pointer;
       }
       input[type="submit"]:hover {
-        background-color: #3e8e41;
+        background-color: #3777BC;
       }
       footer {
         background-color: rgba(255, 255, 255, 0.9);
@@ -57,13 +57,16 @@
     </style>
   </head>
   <body>
+    <form action="/" method="GET">
+      <input type="submit" value="Ask another question">
     <h1>ChatGPT response:</h1>
-    <p>{{ gpt_response }}</p>
+    <p>{{ response }}</p>
     <h1>Reddit results:</h1>
     {% for result in reddit_results %}
       <h2>{{ result.title }}</h2>
       <p>{{ result.text }}</p>
       <a href="https://www.reddit.com{{ result.url }}">View on Reddit</a>
     {% endfor %}
+    </form>
   </body>
 </html>
