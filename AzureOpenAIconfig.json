@@ -1,0 +1,11 @@
+{
+    "CHATGPT_MODEL_NAME": "YOUR-CHATGPT_MODEL_NAME",
+    "OPENAI_API_KEY": "YOUR-OPENAI_API_KEY",
+    "OPENAI_API_BASE": "https://XXXXXXXX.openai.azure.com/",
+    "OPENAI_API_VERSION": "2023-03-15-preview",
+    "OPENAI_GPT_TYPE": "gpt-35-turbo",
+    "REDDIT_CLIENT_ID"         : "YOUR-REDDIT_CLIENT_ID",
+    "REDDIT_CLIENT_SECRET"     : "YOUR-REDDIT_CLIENT_SECRET",
+    "REDDIT_USER_AGENT" : "Integrate Reddit API and ChatGPT API by u/dturchiarelli",
+    "CHATGPT_API_KEY": "YOUR-CHATGPT_API_KEY"
+}
