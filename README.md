@@ -69,7 +69,7 @@ Azure Traffic Manager uses DNS-based routing to load balance incoming traffic ac
 Inbound HTTP(S) connections from the Internet traverse Traffic Manager and should be sent to the public IP address of the Application Gateway, HTTP(S) connections from Azure or on-premises to its private IP address. Standard VNet routing will send the packets from the Application Gateway to the destination workload, as well as from the destination workload back to the Application Gateway (see the packet walk further down for more details). For inbound non-HTTP(S) connections, traffic should be targeting the public IP address of the Azure Firewall (if coming from the public Internet), or it will be sent through the Azure Firewall by User Defined Routes (UDR) (if coming from other Azure VNets or on-premises networks). All outbound flows from Azure VMs will be forwarded to the Azure Firewall by UDR.
 The following table summarizes the traffic flows for this scenario:
 
-![image](https://user-images.githubusercontent.com/107463700/235384658-7bd0c6b1-9a17-4187-b568-34169b90cba2.png)
+![image](https://user-images.githubusercontent.com/107463700/235384689-0037292b-9ede-48f0-9e82-0329746017dc.png)
 
 ## Packet walkthrough
 The request to the Application Gateway public IP is distributed to a back-end instance of the gateway, in this case an example IP address 192.168.200.7. The Application Gateway instance that receives the request stops the connection from the client, and establishes a new connection with one of the back ends. The back end sees the Application Gateway instance as the source IP address. The Application Gateway inserts an X-Forwarded-For HTTP header with the original client IP address.
