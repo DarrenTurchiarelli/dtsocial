@@ -56,20 +56,20 @@ Once the deployment is complete, you should be able to access your Flask applica
 
 Are you considering using Azure OpenAI in an enterprise environment but concerned on the resource domain placement and how to secure the service? There are a many supporting services that could be utilised based on the business requirements, but I want to provide an example, which due to its simplicity and flexibility involves running Application Gateway and Azure Firewall in parallel. This is one of the emerging practices but there are many others that can be drawn upon here . These patterns can be leveraged as you are planning to secure you application workload in a highly available manner. This architecture addresses the needs of individuals and organizations seeking to additionally protect backend APIs from unauthorized users, as well as leveraging API Management features such as throttling, rate limiting, and IP filtering to prevent overloading of APIs.
 Initially when deciding which architecture might be the best starting point, I would recommend the below workflow to assist in making that decision and adjust accordingly. 
- 
+
+![image](https://user-images.githubusercontent.com/107463700/235384589-84fab5f7-446f-40b3-bf24-3bc7c27bb55f.png)
+
 This solution presented in this blog works best when there is a mix of web and non-web workloads in the virtual network (VNet), so we have chosen to go with Azure Application Gateway  (AppGW) with Azure Firewall in parallel. Azure WAF in AppGW protects inbound traffic to the web workloads, and the Azure Firewall inspects inbound traffic for the other applications. The Azure Firewall will cover outbound flows from both workload types. For web applications that only use HTTP(S), Azure Front Door is a better global load balancing solution than Traffic Manager. Front Door is a layer-7 load balancer that also provides caching, traffic acceleration, SSL/TLS termination, certificate management, health probes, and other capabilities.
 
 ## Workflow
 Azure Traffic Manager uses DNS-based routing to load balance incoming traffic across the two regions. Traffic Manager resolves DNS queries for the application to the public IP addresses of the AppGW endpoints. The public endpoints of the AppGWs serve as the backend endpoints of Traffic Manager. Traffic Manager resolves DNS queries based on a choice of six routing methods. In this architecture, Traffic Manager would be configured to use performance routing. It routes traffic to the endpoint that has the lowest latency for the user. Traffic Manager automatically adjusts its load balancing algorithm as endpoint latency changes. Traffic manager provides automatic failover if there's a regional outage. It uses priority routing and regular health checks to determine where to route traffic. The browser connects directly to the endpoint. Traffic Manager doesn't see the HTTP(S) traffic as depicted in the diagram below. 
 
+![image](https://user-images.githubusercontent.com/107463700/235384629-49526c94-d701-494d-b066-14277b4b2511.png)
+
 Inbound HTTP(S) connections from the Internet traverse Traffic Manager and should be sent to the public IP address of the Application Gateway, HTTP(S) connections from Azure or on-premises to its private IP address. Standard VNet routing will send the packets from the Application Gateway to the destination workload, as well as from the destination workload back to the Application Gateway (see the packet walk further down for more details). For inbound non-HTTP(S) connections, traffic should be targeting the public IP address of the Azure Firewall (if coming from the public Internet), or it will be sent through the Azure Firewall by User Defined Routes (UDR) (if coming from other Azure VNets or on-premises networks). All outbound flows from Azure VMs will be forwarded to the Azure Firewall by UDR.
 The following table summarizes the traffic flows for this scenario:
 
-Flow	Goes through Application Gateway / WAF	Goes through Azure Firewall
-HTTP(S) traffic from internet/onprem to Azure	Yes	No
-HTTP(S) traffic from Azure to internet/onprem	No	Yes
-Non-HTTP(S) traffic from internet/onprem to Azure	No	Yes
-Non-HTTP(S) traffic from Azure to internet/onprem	No	Yes
+![image](https://user-images.githubusercontent.com/107463700/235384658-7bd0c6b1-9a17-4187-b568-34169b90cba2.png)
 
 ## Packet walkthrough
 The request to the Application Gateway public IP is distributed to a back-end instance of the gateway, in this case an example IP address 192.168.200.7. The Application Gateway instance that receives the request stops the connection from the client, and establishes a new connection with one of the back ends. The back end sees the Application Gateway instance as the source IP address. The Application Gateway inserts an X-Forwarded-For HTTP header with the original client IP address.
