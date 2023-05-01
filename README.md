@@ -1,3 +1,5 @@
+TODO: Fix formatting 
+
 # How to build a Python solution that integrates with Reddit API and ChatGPT API
 
 First, you'll need to create a Reddit developer account and obtain an API key and secret, which will allow your Python code to access Reddit data. You can find more information on how to do this here: https://www.reddit.com/dev/api/
@@ -71,17 +73,18 @@ Non-HTTP(S) traffic from Azure to internet/onprem	No	Yes
 
 ## Packet walkthrough
 The request to the Application Gateway public IP is distributed to a back-end instance of the gateway, in this case an example IP address 192.168.200.7. The Application Gateway instance that receives the request stops the connection from the client, and establishes a new connection with one of the back ends. The back end sees the Application Gateway instance as the source IP address. The Application Gateway inserts an X-Forwarded-For HTTP header with the original client IP address.
-1          Source IP address: 192.168.200.7 (the private IP address of the Application Gateway instance)
-·           Destination IP address: 192.168.1.4
-·           X-Forwarded-For header: ClientPIP
 
-2.         The VM answers the application request, reversing source and destination IP addresses. The VM already knows how to reach the Application Gateway, so doesn't need a UDR.
-·           Source IP address: 192.168.1.4
-·           Destination IP address: 192.168.200.7
+1 Source IP address: 192.168.200.7 (the private IP address of the Application Gateway instance)
+· Destination IP address: 192.168.1.4
+· X-Forwarded-For header: ClientPIP
 
-3.         Finally, the Application Gateway instance answers the client:
-·           Source IP address: AppGwPIP
-·           Destination IP address: ClientPIP
+2. The VM answers the application request, reversing source and destination IP addresses. The VM already knows how to reach the Application Gateway, so doesn't need a UDR.
+· Source IP address: 192.168.1.4
+· Destination IP address: 192.168.200.7
+
+3. Finally, the Application Gateway instance answers the client:
+·  Source IP address: AppGwPIP
+·  Destination IP address: ClientPIP
 
 Azure Application Gateway adds metadata to the packet HTTP headers, such as the X-Forwarded-For header containing the original client's IP address. Some application servers need the source client IP address to serve geolocation-specific content, or for logging. For more information, see How an application gateway works. The flow is similar if the client comes from an on-premises network over a VPN or ExpressRoute gateway. The difference is the client accesses the private IP address of the Application Gateway instead of the public address. This design gives much more granular egress filtering than NSGs. For example, if applications need connectivity to a specific Azure Storage Account, you can use fully qualified domain name (FQDN)-based filters. With FQDN-based filters, applications aren't sending data to rogue storage accounts. That scenario couldn't be prevented just by using NSGs. This design is often used where outbound traffic requires FQDN-based filtering.
 
@@ -89,17 +92,29 @@ Whilst APIM provides the ability to white-list specific source IP addresses, the
 
 ## Components
 •	Azure Virtual Network enables Azure resources to securely communicate with each other, the internet, and on-premises networks.
+
 •	Azure Private Link enables you to access Azure PaaS Services (for example, Azure Storage and SQL Database) and Azure hosted customer-owned/partner services over a private endpoint in your virtual network.
+
 •	Azure Private DNS allows domain names to be resolved in a virtual network without needing to add a custom DNS solution.
+
 •	Azure API Management helps organizations publish APIs to external, partner, and internal developers to use their data and services.
+
 •	Azure storage account contains all of your Azure Storage data objects, including blobs, file shares, queues, tables, and disks. 
+
 •	Azure DDoS Protection Standard, combined with application-design best practices, provides enhanced DDoS mitigation features to provide more defense against DDoS attacks. You should enable Azure DDOS Protection Standard on any perimeter virtual network.
+
 •	Azure Firewall is a managed next-generation firewall that offers network address translation (NAT). Azure Firewall bases packet filtering on Internet Protocol (IP) addresses and Transmission Control Protocol and User Datagram Protocol (TCP/UDP) ports, or on application-based HTTP(S) or SQL attributes. Azure Firewall also applies Microsoft threat intelligence to identify malicious IP addresses. For more information, see the Azure Firewall documentation.
+
 •	Azure Firewall Premium includes all functionality of Azure Firewall Standard and other features, such as TLS-inspection and Intrusion Detection and Protection System (IDPS).
+
 •	Azure Application Gateway is a managed web traffic load balancer and HTTP(S) full reverse proxy that can do Secure Socket Layer (SSL) encryption and decryption. Application gateway preserves the original client IP address in an X-Forwarded-For HTTP header. Application Gateway also uses Web Application Firewall to inspect web traffic and detect attacks at the HTTP layer. For more information, see the Application Gateway documentation.
+
 •	Azure Web Application Firewall (WAF) is an optional addition to Azure Application Gateway. It provides inspection of HTTP requests, and it prevents malicious attacks at the web layer, such as SQL Injection or Cross-Site Scripting. 
+
 •	Azure Key Vault enables users to securely store and manage cryptographic keys, secrets, and certificates used to authenticate and secure applications, services, and data in the cloud.
+
 •	Azure Front Door enables users to optimize and secure web traffic by routing it to the closest available service endpoint based on real-time performance metrics and geo-proximity.
+
 •	Azure OpenAI offers an integrated AI platform with pre-built models, tools, and services to enable developers and businesses to build and scale AI applications and solutions quickly and easily.
 
 
