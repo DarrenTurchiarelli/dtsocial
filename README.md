@@ -120,7 +120,7 @@ Whilst APIM provides the ability to white-list specific source IP addresses, the
 
 
 ## Key takeaways
-•	You cannot use the Key Vault service firewall to restrict network access at the time of publishing this blog with Azure Cognitive Services. Azure Cognitive Services is not considered a Trusted Azure Service for Key Vault and thus can’t be allowed network access when the service firewall is enabled. Azure Key Vault should be secured with Azure AD authentication and Azure RBAC vault policies for authorization.
+•	You cannot use the Key Vault service firewall to restrict network access at the time of publishing this blog with Azure Cognitive Services. Azure Cognitive Services is not considered a Trusted Azure Service for Key Vault and thus can’t be allowed network access when the service firewall is enabled (Source:https://learn.microsoft.com/en-us/azure/key-vault/general/overview-vnet-service-endpoints#trusted-services). Azure Key Vault should be secured with Azure AD authentication and Azure RBAC vault policies for authorization.
 •	The DNS namespace for the OpenAI service is privatelink.openai.azure.com. It is recommended the DNS namespace for the OpenAI service (privatelink.openai.azure.com) is hosted in Azure Private DNS.  
 •	Azure OpenAI has a service Firewall like many other PaaS services. Customers can allow access from all networks, which is not something I would generally not recommend outside of a PoC. The recommended guidance is to restrict access to select networks and/or private endpoints. 
 •	Azure OpenAI does not support the use of a managed identity for access to an Azure Storage. This means you’ll need to secure the data using a SAS tokens which means you cannot take advantage of service instance authorization rules. 
